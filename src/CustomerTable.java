@@ -1,54 +1,48 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.JOptionPane;
 
 public class CustomerTable implements Runnable
 {
-	private ArrayList<Customer> customerList;
+	private HashMap<String, Customer> customerList;
+	private Customer tmpCustomer;
 	private int managingMode;
 	
 	public CustomerTable()
 	{
-		customerList = new ArrayList<>();
+		customerList = new HashMap<>();
 	}
 	
-	public int getSize()
+	private int getSize()
 	{
 		return customerList.size();
 	}
 	
-	public void addCustomer(String name, String phoneNum, String customNum, String addDate)
+	private void addCustomer()
 	{
-		Customer newCustomer = new Customer(name, phoneNum, customNum, addDate);
+		if(!customerList.containsKey(tmpCustomer.getCustomNum()))
+			customerList.put(tmpCustomer.getCustomNum(), tmpCustomer);
 		
-		if(!customerList.contains(newCustomer))
-			customerList.add(newCustomer);
+		JOptionPane.showMessageDialog(null, getSize());
 	}
 
-	public void removeCurstomer(String name, String phoneNum, String customNum, String addDate)
+	private void removeCustomer()
 	{
-		Customer newCustomer = new Customer(name, phoneNum, customNum, addDate);
-		
-		for(int i = 0; i < getSize(); i++)
-		{
-			if(customerList.get(i).equals(newCustomer))
-			{
-				customerList.remove(i);
-				break;
-			}
-		}
+		if(customerList.containsKey(tmpCustomer.getCustomNum()))
+			customerList.remove(tmpCustomer.getCustomNum());
+			
+		JOptionPane.showMessageDialog(null, getSize());
 	}
 	
-	public Customer searchCustomer(String customNum)
+	private Customer searchCustomer()
 	{
 		Customer output = null;
 		
-		for(int i = 0; i < getSize(); i++)
-		{
-			if(customerList.get(i).getCustomNum().equals(customNum))
-			{
-				output = customerList.get(i);
-				break;
-			}
-		}
+		if(customerList.containsKey(tmpCustomer.getCustomNum()))
+			output = customerList.get(tmpCustomer.getCustomNum());
+		
+		JOptionPane.showMessageDialog(null, output.getName());
 		return output;
 	}
 	
@@ -66,12 +60,22 @@ public class CustomerTable implements Runnable
 	{
 		managingMode = mode;
 	}
+	
+	public void setCustomerInfo(String name, String phoneNum, String customNum, String addDate)
+	{
+		tmpCustomer = new Customer(name, phoneNum, customNum, addDate);
+	}
 
 	@Override
 	public void run()
 	{
 		// TODO Auto-generated method stub
-		
+		if(managingMode == 1)
+			addCustomer();
+		else if(managingMode == 2)
+			searchCustomer();
+		else if(managingMode == 3)
+			removeCustomer();		
 	}
 }
 
@@ -94,8 +98,23 @@ class Customer
 		this.addDate = addDate;
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public String getPhoneNum()
+	{
+		return phoneNum;
+	}
+	
 	public String getCustomNum()
 	{
 		return customNum;
+	}
+	
+	public String getDate()
+	{
+		return addDate;
 	}
 }

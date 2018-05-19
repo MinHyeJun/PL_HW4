@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class OrderSheetTable implements Runnable
 {
 	private ArrayList<OrderSheet> orderList;
+	private OrderSheet tmpOrder;
 	private int managingMode;
 	
 	public OrderSheetTable()
@@ -10,26 +11,22 @@ public class OrderSheetTable implements Runnable
 		orderList = new ArrayList<>();
 	}
 	
-	public int getSize()
+	private int getSize()
 	{
 		return orderList.size();
 	}
 	
-	public void addOrderSheet(String date, String customNum, int menu)
+	private void addOrderSheet()
 	{
-		OrderSheet newOrder = new OrderSheet(date, customNum, menu);
-		
-		if(!orderList.contains(newOrder))
-			orderList.add(newOrder);
+		if(!orderList.contains(tmpOrder))
+			orderList.add(tmpOrder);
 	}
 	
-	public void removeOrderSheet(String date, String customNum, int menu)
+	private void removeOrderSheet()
 	{
-		OrderSheet newOrder = new OrderSheet(date, customNum, menu);
-		
 		for(int i = 0; i < getSize(); i++)
 		{
-			if(orderList.get(i).equals(newOrder))
+			if(orderList.get(i).equals(tmpOrder))
 			{
 				orderList.remove(i);
 				break;
@@ -46,6 +43,11 @@ public class OrderSheetTable implements Runnable
 	public void run()
 	{
 		// TODO Auto-generated method stub
+		switch(managingMode)
+		{
+			case 1:
+				addOrderSheet();
+		}
 		
 	}
 }

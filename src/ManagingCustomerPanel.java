@@ -52,7 +52,7 @@ public class ManagingCustomerPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{	
-
+				startTask(1);
 			}
 		});
 		
@@ -62,7 +62,7 @@ public class ManagingCustomerPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-
+				startTask(2);
 			}
 		});
 		btnRemove = new JButton("∞Ì∞¥ªË¡¶");
@@ -71,7 +71,7 @@ public class ManagingCustomerPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-
+				startTask(3);
 			}
 		});
 		
@@ -87,5 +87,13 @@ public class ManagingCustomerPanel extends JPanel
 		add(btnSearch);
 		add(btnRemove);
 	}
-
+	
+	private void startTask(int mode)
+	{
+		customerTab.setManagingMode(mode);
+		customerTab.setCustomerInfo(textName.getText(), textPhoneNum.getText(), textNum.getText(), textDate.getText());
+		
+		Thread thread = new Thread(customerTab);
+		thread.start();
+	}
 }

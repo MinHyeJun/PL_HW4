@@ -56,8 +56,6 @@ public class ManagingOrderPanel extends JPanel implements Runnable
 					return;
 				}
 				
-				orderTab.addOrderSheet(textDate.getText(), textNum.getText(), comboMenu.getSelectedIndex());
-				JOptionPane.showMessageDialog(null, orderTab.getSize()+"");
 			}
 		});
 		btnCancel = new JButton("주문취소");
