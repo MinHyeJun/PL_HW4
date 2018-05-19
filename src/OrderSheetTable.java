@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class OrderSheetTable implements Runnable
 {
 	private ArrayList<OrderSheet> orderList;
@@ -18,8 +20,9 @@ public class OrderSheetTable implements Runnable
 	
 	private void addOrderSheet()
 	{
-		if(!orderList.contains(tmpOrder))
-			orderList.add(tmpOrder);
+		orderList.add(tmpOrder);
+		
+		JOptionPane.showMessageDialog(null, getSize());
 	}
 	
 	private void removeOrderSheet()
@@ -32,6 +35,13 @@ public class OrderSheetTable implements Runnable
 				break;
 			}
 		}
+		
+		JOptionPane.showMessageDialog(null, getSize());
+	}
+	
+	public void setOrderInfo(String date, String customNum, int menu)
+	{
+		tmpOrder = new OrderSheet(date, customNum, menu);
 	}
 	
 	public void setManagingMode(int mode)
@@ -47,6 +57,10 @@ public class OrderSheetTable implements Runnable
 		{
 			case 1:
 				addOrderSheet();
+				break;
+			case 2:
+				removeOrderSheet();
+				break;
 		}
 		
 	}
@@ -67,5 +81,30 @@ class OrderSheet
 		this.date = date;
 		this.customNum = customNum;
 		this.menu = menu;
+	}
+	
+	public String getDate()
+	{
+		return date;
+	}
+	
+	public String getCustomNum()
+	{
+		return customNum;
+	}
+	
+	public int getMenu()
+	{
+		return menu;
+	}
+	
+	public boolean equals(OrderSheet input)
+	{
+		if(date.equals(input.getDate()) && customNum.equals(input.getCustomNum()) && menu == input.getMenu())
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

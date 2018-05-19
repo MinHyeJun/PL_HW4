@@ -70,12 +70,18 @@ public class CustomerTable implements Runnable
 	public void run()
 	{
 		// TODO Auto-generated method stub
-		if(managingMode == 1)
-			addCustomer();
-		else if(managingMode == 2)
-			searchCustomer();
-		else if(managingMode == 3)
-			removeCustomer();		
+		switch(managingMode)
+		{
+			case 1:
+				addCustomer();
+				break;
+			case 2:
+				searchCustomer();
+				break;
+			case 3:
+				removeCustomer();
+				break;
+		}
 	}
 }
 

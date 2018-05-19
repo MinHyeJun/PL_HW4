@@ -3,7 +3,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class ManagingOrderPanel extends JPanel implements Runnable
+public class ManagingOrderPanel extends JPanel
 {
 	private OrderSheetTable orderTab;
 	
@@ -45,17 +45,7 @@ public class ManagingOrderPanel extends JPanel implements Runnable
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(textDate.getText().equals(""))
-				{
-					JOptionPane.showMessageDialog(null, "no 주문일");
-					return;
-				}
-				else if(textNum.getText().equals(""))
-				{
-					JOptionPane.showMessageDialog(null, "no 고객번호");
-					return;
-				}
-				
+				startTask(1);
 			}
 		});
 		btnCancel = new JButton("주문취소");
@@ -64,16 +54,7 @@ public class ManagingOrderPanel extends JPanel implements Runnable
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if(textDate.getText().equals(""))
-				{
-					JOptionPane.showMessageDialog(null, "no 주문일");
-					return;
-				}
-				else if(textNum.getText().equals(""))
-				{
-					JOptionPane.showMessageDialog(null, "no 고객번호");
-					return;
-				}
+				startTask(2);
 			}
 		});
 		
@@ -86,11 +67,13 @@ public class ManagingOrderPanel extends JPanel implements Runnable
 		add(btnOrder);
 		add(btnCancel);
 	}
-
-	@Override
-	public void run()
+	
+	public void startTask(int mode)
 	{
-		// TODO Auto-generated method stub
+		orderTab.setManagingMode(mode);
+		orderTab.setOrderInfo(textDate.getText(), textNum.getText(), comboMenu.getSelectedIndex());
 		
+		Thread thread = new Thread(orderTab);
+		thread.start();
 	}
 }
