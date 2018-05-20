@@ -23,7 +23,7 @@ public class OrderSheetTable implements Runnable
 	{
 		orderList.add(tmpOrder);
 		
-		JOptionPane.showMessageDialog(null, getSize());
+		JOptionPane.showMessageDialog(null, "주문이 완료되었습니다.", "주문 성공", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private void removeOrderSheet()
@@ -37,7 +37,7 @@ public class OrderSheetTable implements Runnable
 			}
 		}
 		
-		JOptionPane.showMessageDialog(null, getSize());
+		JOptionPane.showMessageDialog(null, "주문이 취소되었습니다.", "취소 성공", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	public void setOrderInfo(String date, String customNum, int menu)
@@ -52,6 +52,32 @@ public class OrderSheetTable implements Runnable
 	{
 		managingMode = mode;
 	}
+	
+	private boolean isWin()
+	{
+		int cnt = 0;
+		
+		for(int i = 0; i < getSize(); i++)
+		{
+			if(orderList.get(i).getCustomNum().equals(tmpOrder.getCustomNum()))
+				cnt++;
+		}
+		
+		if(cnt%3 == 0)
+			return true;
+		else
+			return false;
+	}
+	
+	private void giveCoupon()
+	{
+		String output;
+		if(isWin())
+		{
+			output = tmpOrder.getCustomNum() + "번 고객님\n" + "무료쿠폰이 배송되었습니다.";
+			JOptionPane.showMessageDialog(null, output, "쿠폰 지급", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
 
 	@Override
 	public void run()
@@ -61,6 +87,7 @@ public class OrderSheetTable implements Runnable
 		{
 			case 1:
 				addOrderSheet();
+				giveCoupon();
 				break;
 			case 2:
 				removeOrderSheet();

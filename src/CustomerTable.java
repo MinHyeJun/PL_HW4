@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -52,7 +51,7 @@ public class CustomerTable implements Runnable
 		if(!contains(tmpCustomer))
 			customerList.add(tmpCustomer);
 		
-		JOptionPane.showMessageDialog(null, getSize());
+		JOptionPane.showMessageDialog(null, "고객정보가 등록되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void removeCustomer()
@@ -60,7 +59,7 @@ public class CustomerTable implements Runnable
 		if(contains(tmpCustomer))
 			customerList.remove(getIndex(tmpCustomer));
 			
-		JOptionPane.showMessageDialog(null, getSize());
+		JOptionPane.showMessageDialog(null, "고객정보가 삭제되었습니다.", "삭제 성공", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private void searchCustomer()
@@ -81,7 +80,7 @@ public class CustomerTable implements Runnable
 		try
 		{
 			String output;
-			File file = new File("customer.txt");
+			File file = new File("custom.txt");
 			BufferedWriter bufWriter = new BufferedWriter(new FileWriter(file));
 			
 			if(file.isFile() && file.canWrite())
@@ -107,7 +106,7 @@ public class CustomerTable implements Runnable
 	{
 		try
 		{
-			File file = new File("customer.txt");
+			File file = new File("custom.txt");
 			BufferedReader bufReader = new BufferedReader(new FileReader(file));
 			String line = "";
 			while((line = bufReader.readLine()) != null)
@@ -170,7 +169,6 @@ class Customer
 	private String phoneNum;
 	private String customNum;
 	private String addDate;
-	private int orderCount;
 	
 	public Customer(String name, String phoneNum, String customNum, String addDate)
 	{
@@ -178,7 +176,6 @@ class Customer
 		this.phoneNum = phoneNum;
 		this.customNum = customNum;
 		this.addDate = addDate;
-		orderCount = 0;
 	}
 	
 	public String getName()
