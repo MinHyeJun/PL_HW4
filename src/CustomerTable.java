@@ -6,12 +6,16 @@ import javax.swing.JOptionPane;
 public class CustomerTable implements Runnable
 {
 	private HashMap<String, Customer> customerList;
+	
 	private Customer tmpCustomer;
 	private int managingMode;
 	
-	public CustomerTable()
+	private ManagingCustomerPanel panel;
+	
+	public CustomerTable(ManagingCustomerPanel panel)
 	{
 		customerList = new HashMap<>();
+		this.panel = panel;
 	}
 	
 	private int getSize()
@@ -35,15 +39,17 @@ public class CustomerTable implements Runnable
 		JOptionPane.showMessageDialog(null, getSize());
 	}
 	
-	private Customer searchCustomer()
+	private void searchCustomer()
 	{
-		Customer output = null;
-		
 		if(customerList.containsKey(tmpCustomer.getCustomNum()))
-			output = customerList.get(tmpCustomer.getCustomNum());
+		{
+			tmpCustomer = customerList.get(tmpCustomer.getCustomNum());
 		
-		JOptionPane.showMessageDialog(null, output.getName());
-		return output;
+			panel.getTextFieldNum().setText(tmpCustomer.getCustomNum());
+			panel.getTextFieldName().setText(tmpCustomer.getName());
+			panel.getTextFieldPhoneNum().setText(tmpCustomer.getPhoneNum());
+			panel.getTextFieldDate().setText(tmpCustomer.getDate());
+		}
 	}
 	
 	private void saveCustomer()

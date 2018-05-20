@@ -23,7 +23,7 @@ public class ManagingCustomerPanel extends JPanel
 	
 	public ManagingCustomerPanel()
 	{
-		customerTab = new CustomerTable();
+		customerTab = new CustomerTable(this);
 		setLayout(null);
 		// 라벨 생성
 		labelNum = new JLabel("고객번호");
@@ -95,5 +95,25 @@ public class ManagingCustomerPanel extends JPanel
 		
 		Thread thread = new Thread(customerTab);
 		thread.start();
+	}
+	
+	public JTextField getTextFieldNum()
+	{
+		return textNum;
+	}
+	
+	public JTextField getTextFieldName()
+	{
+		return textName;
+	}
+	
+	public JTextField getTextFieldPhoneNum()
+	{
+		return textPhoneNum;
+	}
+	
+	public JTextField getTextFieldDate()
+	{
+		return textDate;
 	}
 }

@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 public class OrderSheetTable implements Runnable
 {
 	private ArrayList<OrderSheet> orderList;
+	
 	private OrderSheet tmpOrder;
 	private int managingMode;
 	
@@ -41,7 +42,10 @@ public class OrderSheetTable implements Runnable
 	
 	public void setOrderInfo(String date, String customNum, int menu)
 	{
-		tmpOrder = new OrderSheet(date, customNum, menu);
+		if(customNum.equals(""))
+			tmpOrder = new OrderSheet(date, "GUEST", menu);
+		else
+			tmpOrder = new OrderSheet(date, customNum, menu);
 	}
 	
 	public void setManagingMode(int mode)

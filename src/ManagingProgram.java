@@ -37,5 +37,4 @@ public class ManagingProgram extends JFrame
 		new ManagingProgram();
 		
 	}
-
 }
