@@ -1,11 +1,13 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 public class CustomerTable implements Runnable
 {
-	private HashMap<String, Customer> customerList;
+	private List<Customer> customerList;
 	
 	private Customer tmpCustomer;
 	private int managingMode;
@@ -14,8 +16,9 @@ public class CustomerTable implements Runnable
 	
 	public CustomerTable(ManagingCustomerPanel panel)
 	{
-		customerList = new HashMap<>();
+		customerList = new ArrayList<>();
 		this.panel = panel;
+		loadCustomer();
 	}
 	
 	private int getSize()
@@ -23,27 +26,48 @@ public class CustomerTable implements Runnable
 		return customerList.size();
 	}
 	
+	private int getIndex(Customer newCustomer)
+	{
+		Customer current;
+		
+		for(int i = 0; i < getSize(); i ++)
+		{
+			current = customerList.get(i);
+			
+			if(current.getCustomNum().equals(newCustomer.getCustomNum()))
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	private boolean contains(Customer newCustomer)
+	{
+		return (getIndex(newCustomer) >= 0);
+	}
+	
 	private void addCustomer()
 	{
-		if(!customerList.containsKey(tmpCustomer.getCustomNum()))
-			customerList.put(tmpCustomer.getCustomNum(), tmpCustomer);
+		if(!contains(tmpCustomer))
+			customerList.add(tmpCustomer);
 		
 		JOptionPane.showMessageDialog(null, getSize());
 	}
 
 	private void removeCustomer()
 	{
-		if(customerList.containsKey(tmpCustomer.getCustomNum()))
-			customerList.remove(tmpCustomer.getCustomNum());
+		if(contains(tmpCustomer))
+			customerList.remove(getIndex(tmpCustomer));
 			
 		JOptionPane.showMessageDialog(null, getSize());
 	}
 	
 	private void searchCustomer()
 	{
-		if(customerList.containsKey(tmpCustomer.getCustomNum()))
+		if(contains(tmpCustomer))
 		{
-			tmpCustomer = customerList.get(tmpCustomer.getCustomNum());
+			tmpCustomer = customerList.get(getIndex(tmpCustomer));
 		
 			panel.getTextFieldNum().setText(tmpCustomer.getCustomNum());
 			panel.getTextFieldName().setText(tmpCustomer.getName());
@@ -54,12 +78,55 @@ public class CustomerTable implements Runnable
 	
 	private void saveCustomer()
 	{
+		try
+		{
+			String output;
+			File file = new File("customer.txt");
+			BufferedWriter bufWriter = new BufferedWriter(new FileWriter(file));
+			
+			if(file.isFile() && file.canWrite())
+			{
+				for(int i = 0; i < getSize(); i++)
+				{
+					output = customerList.get(i).getName() + "\t" + customerList.get(i).getPhoneNum() + "\t"
+							+ customerList.get(i).getCustomNum() + "\t" + customerList.get(i).getDate();
+					bufWriter.write(output);
+				}
+				bufWriter.close();
+			}
+		}
+		catch(IOException e)
+		{
+			System.err.println(e);
+		}
+		
 		
 	}
 	
 	private void loadCustomer()
 	{
-		
+		try
+		{
+			File file = new File("customer.txt");
+			BufferedReader bufReader = new BufferedReader(new FileReader(file));
+			String line = "";
+			while((line = bufReader.readLine()) != null)
+			{
+				String[] unit = line.split("\t");
+				Customer newCustomer = new Customer(unit[0], unit[1], unit[2], unit[3]);
+				customerList.add(newCustomer);
+			}
+			tmpCustomer = null;
+			bufReader.close();
+		}
+		catch(FileNotFoundException e)
+		{
+			
+		}
+		catch(IOException e)
+		{
+			System.err.println(e);
+		}
 	}
 	
 	public void setManagingMode(int mode)
@@ -80,12 +147,14 @@ public class CustomerTable implements Runnable
 		{
 			case 1:
 				addCustomer();
+				saveCustomer();
 				break;
 			case 2:
 				searchCustomer();
 				break;
 			case 3:
 				removeCustomer();
+				saveCustomer();
 				break;
 		}
 	}
@@ -101,6 +170,7 @@ class Customer
 	private String phoneNum;
 	private String customNum;
 	private String addDate;
+	private int orderCount;
 	
 	public Customer(String name, String phoneNum, String customNum, String addDate)
 	{
@@ -108,6 +178,7 @@ class Customer
 		this.phoneNum = phoneNum;
 		this.customNum = customNum;
 		this.addDate = addDate;
+		orderCount = 0;
 	}
 	
 	public String getName()
