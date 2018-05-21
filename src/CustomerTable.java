@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
@@ -134,7 +136,36 @@ public class CustomerTable implements Runnable
 	}
 	
 	public void setCustomerInfo(String name, String phoneNum, String customNum, String addDate)
+	throws IllegalInputFormException, WrongCharactersException, StringOverFlowException
 	{
+		String form;
+		Pattern pattern;
+		Matcher matcher;
+		/*
+		form = "[^¤¡-¤¾|°¡-ÆR|a-z|A-Z|0-9]";
+		pattern = Pattern.compile(form);
+		matcher = pattern.matcher(name);
+		
+		if(name.length() >= 10)
+			new StringOverFlowException("ÀÔ·ÂµÈ ÀÌ¸§ÀÌ 10ÀÚ¸¦ ³Ñ½À´Ï´Ù.");
+		else if(matcher.find())
+			new WrongCharactersException("Æ¯¼ö¹®ÀÚ°¡ ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
+		*/
+		form = "[^0-9|-]";
+		pattern = Pattern.compile(form);
+		matcher = pattern.matcher(phoneNum);
+
+		if(matcher.find())
+			throw new IllegalInputFormException("Àß¸øµÈ ÀüÈ­¹øÈ£ Çü½ÄÀÔ´Ï´Ù.");
+			
+		form = "[^0-9|/]";
+		pattern = Pattern.compile(form);
+		matcher = pattern.matcher(addDate);
+			
+		if(matcher.find())
+			throw new IllegalInputFormException("Àß¸øµÈ ³¯Â¥ Çü½ÄÀÔ´Ï´Ù.");
+				
+			
 		tmpCustomer = new Customer(name, phoneNum, customNum, addDate);
 	}
 

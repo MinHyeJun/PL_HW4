@@ -35,6 +35,75 @@ public class ManagingProgram extends JFrame
 	{
 		// TODO Auto-generated method stub
 		new ManagingProgram();
-		
+	}
+}
+
+class IllegalInputFormException extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public IllegalInputFormException() { }
+	
+	public IllegalInputFormException(String message) {
+		super(message);
+	}
+}
+
+class WrongCharactersException extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public WrongCharactersException() { }
+	
+	public WrongCharactersException(String message) {
+		super(message);
+	}
+}
+
+class StringOverFlowException extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public StringOverFlowException() { }
+	
+	public StringOverFlowException(String message) {
+		super(message);
+	}
+}
+
+class NotExistDataException extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public NotExistDataException() { }
+	
+	public NotExistDataException(String message) {
+		super(message);
+	}
+}
+
+class WrongInputDataException extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public WrongInputDataException() { }
+	
+	public WrongInputDataException(String message) {
+		super(message);
 	}
 }

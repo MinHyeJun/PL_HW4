@@ -32,7 +32,7 @@ public class ManagingCustomerPanel extends JPanel
 		labelName.setBounds(130,100,100,30);
 		labelPhoneNum = new JLabel("전화번호");
 		labelPhoneNum.setBounds(130,150,100,30);
-		labelDate = new JLabel("가 입 일");
+		labelDate = new JLabel("생    일");
 		labelDate.setBounds(130,200,100,30);		
 		
 		// 텍스트 필드 생성
@@ -90,11 +90,17 @@ public class ManagingCustomerPanel extends JPanel
 	
 	private void startTask(int mode)
 	{
-		customerTab.setManagingMode(mode);
-		customerTab.setCustomerInfo(textName.getText(), textPhoneNum.getText(), textNum.getText(), textDate.getText());
+		try
+		{
+			customerTab.setManagingMode(mode);
+			customerTab.setCustomerInfo(textName.getText(), textPhoneNum.getText(), textNum.getText(), textDate.getText());
 		
-		Thread thread = new Thread(customerTab);
-		thread.start();
+			Thread thread = new Thread(customerTab);
+			thread.start();
+		}
+		catch(Exception e)
+		{
+		}
 	}
 	
 	public JTextField getTextFieldNum()
