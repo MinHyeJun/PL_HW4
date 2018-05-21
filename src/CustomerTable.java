@@ -58,22 +58,40 @@ public class CustomerTable implements Runnable
 
 	private void removeCustomer()
 	{
-		if(contains(tmpCustomer))
-			customerList.remove(getIndex(tmpCustomer));
+		try
+		{
+			if(contains(tmpCustomer))
+				customerList.remove(getIndex(tmpCustomer));
+			else
+				throw new NotExistDataException("삭제할 고객 정보가 존재하지 않습니다.");
 			
-		JOptionPane.showMessageDialog(null, "고객정보가 삭제되었습니다.", "삭제 성공", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "고객정보가 삭제되었습니다.", "삭제 성공", JOptionPane.INFORMATION_MESSAGE);
+		}
+		catch(NotExistDataException e)
+		{
+			
+		}
 	}
 	
 	private void searchCustomer()
 	{
-		if(contains(tmpCustomer))
+		try
 		{
-			tmpCustomer = customerList.get(getIndex(tmpCustomer));
+			if(contains(tmpCustomer))
+			{
+				tmpCustomer = customerList.get(getIndex(tmpCustomer));
 		
-			panel.getTextFieldNum().setText(tmpCustomer.getCustomNum());
-			panel.getTextFieldName().setText(tmpCustomer.getName());
-			panel.getTextFieldPhoneNum().setText(tmpCustomer.getPhoneNum());
-			panel.getTextFieldDate().setText(tmpCustomer.getDate());
+				panel.getTextFieldNum().setText(tmpCustomer.getCustomNum());
+				panel.getTextFieldName().setText(tmpCustomer.getName());
+				panel.getTextFieldPhoneNum().setText(tmpCustomer.getPhoneNum());
+				panel.getTextFieldDate().setText(tmpCustomer.getDate());
+			}
+			else
+				throw new NotExistDataException("검색할 고객 정보가 존재하지 않습니다.");
+		}
+		catch(NotExistDataException e)
+		{
+			System.out.println("고객 데이터 없음");
 		}
 	}
 	

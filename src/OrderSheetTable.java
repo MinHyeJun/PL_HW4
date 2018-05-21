@@ -30,16 +30,27 @@ public class OrderSheetTable implements Runnable
 	
 	private void removeOrderSheet()
 	{
-		for(int i = 0; i < getSize(); i++)
+		int index;
+		
+		for(index = 0; index < getSize(); index++)
 		{
-			if(orderList.get(i).equals(tmpOrder))
-			{
-				orderList.remove(i);
+			if(orderList.get(index).equals(tmpOrder))
 				break;
-			}
 		}
 		
-		JOptionPane.showMessageDialog(null, "ÁÖ¹®ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.", "Ãë¼Ò ¼º°ø", JOptionPane.INFORMATION_MESSAGE);
+		try
+		{
+			if(index >= getSize())
+					throw new NotExistDataException("»èÁ¦ÇÒ ÁÖ¹® Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+			else
+				orderList.remove(index);
+			
+			JOptionPane.showMessageDialog(null, "ÁÖ¹®ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.", "Ãë¼Ò ¼º°ø", JOptionPane.INFORMATION_MESSAGE);
+		}
+		catch(NotExistDataException e)
+		{
+			
+		}
 	}
 	
 	public void setOrderInfo(String date, String customNum, int menu)
@@ -54,20 +65,14 @@ public class OrderSheetTable implements Runnable
 		matcher = pattern.matcher(date);
 			
 		if(matcher.find())
-		{
-			System.out.println("Àß¸øµÈ ³¯Â¥");
 			throw new IllegalInputFormException("Àß¸øµÈ ³¯Â¥ Çü½ÄÀÔ´Ï´Ù.");
-		}
 		
 		form = "[^¤¡-¤¾°¡-ÆRa-zA-Z0-9]";
 		pattern = Pattern.compile(form);
 		matcher = pattern.matcher(customNum);
 		
 		if(matcher.find())
-		{
-			System.out.println("Æ¯¼ö¹®ÀÚ");
 			throw new WrongCharactersException("Æ¯¼ö¹®ÀÚ°¡ ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
-		}
 		
 		if(customNum.equals(""))
 			tmpOrder = new OrderSheet(date, "GUEST", menu);
