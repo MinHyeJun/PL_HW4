@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
@@ -41,7 +43,32 @@ public class OrderSheetTable implements Runnable
 	}
 	
 	public void setOrderInfo(String date, String customNum, int menu)
+	throws IllegalInputFormException, WrongCharactersException
 	{
+		String form;
+		Pattern pattern;
+		Matcher matcher;
+		
+		form = "[^0-9|/]";
+		pattern = Pattern.compile(form);
+		matcher = pattern.matcher(date);
+			
+		if(matcher.find())
+		{
+			System.out.println("Àß¸øµÈ ³¯Â¥");
+			throw new IllegalInputFormException("Àß¸øµÈ ³¯Â¥ Çü½ÄÀÔ´Ï´Ù.");
+		}
+		
+		form = "[^¤¡-¤¾°¡-ÆRa-zA-Z0-9]";
+		pattern = Pattern.compile(form);
+		matcher = pattern.matcher(customNum);
+		
+		if(matcher.find())
+		{
+			System.out.println("Æ¯¼ö¹®ÀÚ");
+			throw new WrongCharactersException("Æ¯¼ö¹®ÀÚ°¡ ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
+		}
+		
 		if(customNum.equals(""))
 			tmpOrder = new OrderSheet(date, "GUEST", menu);
 		else

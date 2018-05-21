@@ -70,10 +70,17 @@ public class ManagingOrderPanel extends JPanel
 	
 	public void startTask(int mode)
 	{
-		orderTab.setManagingMode(mode);
-		orderTab.setOrderInfo(textDate.getText(), textNum.getText(), comboMenu.getSelectedIndex());
+		try
+		{
+			orderTab.setManagingMode(mode);
+			orderTab.setOrderInfo(textDate.getText(), textNum.getText(), comboMenu.getSelectedIndex());
 		
-		Thread thread = new Thread(orderTab);
-		thread.start();
+			Thread thread = new Thread(orderTab);
+			thread.start();
+		}
+		catch(Exception e)
+		{
+			
+		}
 	}
 }

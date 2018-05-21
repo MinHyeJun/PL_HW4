@@ -153,10 +153,7 @@ public class CustomerTable implements Runnable
 		
 		matcher = pattern.matcher(customNum);
 		if(matcher.find())
-		{
-			System.out.println("고객번호에 특수문자");
 			throw new WrongCharactersException("특수문자가 입력되었습니다.");
-		}
 		
 		form = "[^0-9|-]";
 		pattern = Pattern.compile(form);
@@ -171,7 +168,6 @@ public class CustomerTable implements Runnable
 			
 		if(matcher.find())
 			throw new IllegalInputFormException("잘못된 날짜 형식입니다.");
-				
 			
 		tmpCustomer = new Customer(name, phoneNum, customNum, addDate);
 	}
