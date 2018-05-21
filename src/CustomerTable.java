@@ -141,16 +141,23 @@ public class CustomerTable implements Runnable
 		String form;
 		Pattern pattern;
 		Matcher matcher;
-		/*
-		form = "[^¤¡-¤¾|°¡-ÆR|a-z|A-Z|0-9]";
+		
+		form = "[^¤¡-¤¾°¡-ÆRa-zA-Z0-9]";
 		pattern = Pattern.compile(form);
 		matcher = pattern.matcher(name);
 		
-		if(name.length() >= 10)
-			new StringOverFlowException("ÀÔ·ÂµÈ ÀÌ¸§ÀÌ 10ÀÚ¸¦ ³Ñ½À´Ï´Ù.");
-		else if(matcher.find())
-			new WrongCharactersException("Æ¯¼ö¹®ÀÚ°¡ ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
-		*/
+		if(matcher.find())
+			throw new WrongCharactersException("Æ¯¼ö¹®ÀÚ°¡ ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
+		else if(name.length() >= 10)
+			throw new StringOverFlowException("ÀÔ·ÂµÈ ÀÌ¸§ÀÌ 10ÀÚ¸¦ ³Ñ½À´Ï´Ù.");
+		
+		matcher = pattern.matcher(customNum);
+		if(matcher.find())
+		{
+			System.out.println("°í°´¹øÈ£¿¡ Æ¯¼ö¹®ÀÚ");
+			throw new WrongCharactersException("Æ¯¼ö¹®ÀÚ°¡ ÀÔ·ÂµÇ¾ú½À´Ï´Ù.");
+		}
+		
 		form = "[^0-9|-]";
 		pattern = Pattern.compile(form);
 		matcher = pattern.matcher(phoneNum);
