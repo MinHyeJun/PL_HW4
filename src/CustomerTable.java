@@ -15,11 +15,14 @@ public class CustomerTable implements Runnable
 	
 	private ManagingCustomerPanel panel;
 	
-	public CustomerTable(ManagingCustomerPanel panel)
+	public CustomerTable()
 	{
 		customerList = new ArrayList<>();
+	}
+	
+	public void setManagingCustomerPanel(ManagingCustomerPanel panel)
+	{
 		this.panel = panel;
-		loadCustomer();
 	}
 	
 	private int getSize()
@@ -123,56 +126,28 @@ public class CustomerTable implements Runnable
 		}
 	}
 	
-	private void saveCustomer()
+	public void saveCustomer(File file, BufferedWriter bufWriter) throws IOException
 	{
-		try
-		{
-			String output;
-			File file = new File("custom.txt");
-			BufferedWriter bufWriter = new BufferedWriter(new FileWriter(file));
+		String output;
 			
-			if(file.isFile() && file.canWrite())
-			{
-				for(int i = 0; i < getSize(); i++)
-				{
-					output = customerList.get(i).getName() + "\t" + customerList.get(i).getPhoneNum() + "\t"
-							+ customerList.get(i).getCustomNum() + "\t" + customerList.get(i).getDate();
-					bufWriter.write(output);
-					bufWriter.newLine();
-				}
-				bufWriter.close();
-			}
-		}
-		catch(IOException e)
+		if(file.isFile() && file.canWrite())
 		{
-			System.err.println(e);
+			for(int i = 0; i < getSize(); i++)
+			{
+				output = customerList.get(i).getName() + "\t" + customerList.get(i).getPhoneNum() + "\t"
+						+ customerList.get(i).getCustomNum() + "\t" + customerList.get(i).getDate();
+				bufWriter.write(output);
+				bufWriter.newLine();
+			}
 		}
 	}
 	
-	private void loadCustomer()
+	public void loadCustomer(String line)
 	{
-		try
-		{
-			File file = new File("custom.txt");
-			BufferedReader bufReader = new BufferedReader(new FileReader(file));
-			String line = "";
-			while((line = bufReader.readLine()) != null)
-			{
-				String[] unit = line.split("\t");
-				Customer newCustomer = new Customer(unit[0], unit[1], unit[2], unit[3]);
-				customerList.add(newCustomer);
-			}
-			tmpCustomer = null;
-			bufReader.close();
-		}
-		catch(FileNotFoundException e)
-		{
-			
-		}
-		catch(IOException e)
-		{
-			System.err.println(e);
-		}
+
+		String[] unit = line.split("\t");
+		Customer newCustomer = new Customer(unit[0], unit[1], unit[2], unit[3]);
+		customerList.add(newCustomer);
 	}
 	
 	public void setManagingMode(int mode)
@@ -225,14 +200,12 @@ public class CustomerTable implements Runnable
 		{
 			case 1:
 				addCustomer();
-				saveCustomer();
 				break;
 			case 2:
 				searchCustomer();
 				break;
 			case 3:
 				removeCustomer();
-				saveCustomer();
 				break;
 		}
 	}

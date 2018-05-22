@@ -1,10 +1,19 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.*;
 
 public class ManagingOrderPanel extends JPanel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private CustomerTable customerTab;
 	private OrderSheetTable orderTab;
 	
 	private JLabel labelDate;
@@ -19,9 +28,10 @@ public class ManagingOrderPanel extends JPanel
 	private JButton btnOrder;
 	private JButton btnCancel;
 	
-	public ManagingOrderPanel()
+	public ManagingOrderPanel(CustomerTable customerTab, OrderSheetTable orderTab)
 	{
-		orderTab = new OrderSheetTable();
+		this.customerTab = customerTab;
+		this.orderTab = orderTab;
 		setLayout(null);
 		
 		//라벨 생성
@@ -77,10 +87,37 @@ public class ManagingOrderPanel extends JPanel
 		
 			Thread thread = new Thread(orderTab);
 			thread.start();
+			
+			saveDatas();
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage(), "입력 확인", JOptionPane.WARNING_MESSAGE);
 		}
+	}
+	
+	public void loadOrderData(String line)
+	{
+		orderTab.loadOrder(line);
+	}
+	
+	private void saveDatas()
+	{
+		try
+		{
+			File file = new File("custom.txt");
+			BufferedWriter bufWriter = new BufferedWriter(new FileWriter(file));
+	
+			customerTab.saveCustomer(file, bufWriter);
+			bufWriter.write("=====");
+			bufWriter.newLine();
+			orderTab.saveOrder(file, bufWriter);
+			bufWriter.close();
+		}
+		catch (IOException e)
+		{
+			System.err.println(e);
+		}
+		
 	}
 }

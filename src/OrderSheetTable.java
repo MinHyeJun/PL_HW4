@@ -1,9 +1,5 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -14,6 +10,7 @@ import javax.swing.JOptionPane;
 public class OrderSheetTable implements Runnable
 {
 	private ArrayList<OrderSheet> orderList;
+	private ManagingOrderPanel panel;
 	
 	private OrderSheet tmpOrder;
 	private int managingMode;
@@ -21,7 +18,11 @@ public class OrderSheetTable implements Runnable
 	public OrderSheetTable()
 	{
 		orderList = new ArrayList<>();
-		loadOrder();
+	}
+	
+	public void setManagingOrderPanel(ManagingOrderPanel panel)
+	{
+		this.panel = panel;
 	}
 	
 	private int getSize()
@@ -74,56 +75,28 @@ public class OrderSheetTable implements Runnable
 		}
 	}
 	
-	private void saveOrder()
+	public void saveOrder(File file, BufferedWriter bufWriter) throws IOException
 	{
-		try
-		{
-			String output;
-			File file = new File("orders.txt");
-			BufferedWriter bufWriter = new BufferedWriter(new FileWriter(file));
+
+		String output;
 			
-			if(file.isFile() && file.canWrite())
-			{
+		if(file.isFile() && file.canWrite())
+		{
 				for(int i = 0; i < getSize(); i++)
-				{
+			{
 					output = orderList.get(i).getDate() + "\t" + orderList.get(i).getCustomNum() + "\t"
 							+ orderList.get(i).getMenu();
 					bufWriter.write(output);
 					bufWriter.newLine();
-				}
-				bufWriter.close();
 			}
-		}
-		catch(IOException e)
-		{
-			System.err.println(e);
 		}
 	}
 	
-	private void loadOrder()
+	public void loadOrder(String line)
 	{
-		try
-		{
-			File file = new File("orders.txt");
-			BufferedReader bufReader = new BufferedReader(new FileReader(file));
-			String line = "";
-			while((line = bufReader.readLine()) != null)
-			{
-				String[] unit = line.split("\t");
-				OrderSheet newOrder = new OrderSheet (unit[0], unit[1], Integer.parseInt(unit[2]));
-				orderList.add(newOrder);
-			}
-			tmpOrder = null;
-			bufReader.close();
-		}
-		catch(FileNotFoundException e)
-		{
-			
-		}
-		catch(IOException e)
-		{
-			System.err.println(e);
-		}
+		String[] unit = line.split("\t");
+		OrderSheet newOrder = new OrderSheet (unit[0], unit[1], Integer.parseInt(unit[2]));
+		orderList.add(newOrder);
 	}
 	
 	public void setOrderInfo(String date, String customNum, int menu)
@@ -192,12 +165,10 @@ public class OrderSheetTable implements Runnable
 		{
 			case 1:
 				addOrderSheet();
-				saveOrder();
 				giveCoupon();
 				break;
 			case 2:
 				removeOrderSheet();
-				saveOrder();
 				break;
 		}
 		

@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 import javax.swing.*;
 
 public class ManagingProgram extends JFrame
@@ -20,8 +24,15 @@ public class ManagingProgram extends JFrame
 		setBounds(x1, y1, x2, y2);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		orderPanel = new ManagingOrderPanel();
-		customPanel = new ManagingCustomerPanel();
+		CustomerTable customerTab = new CustomerTable();
+		OrderSheetTable orderTab = new OrderSheetTable();
+		
+		customPanel = new ManagingCustomerPanel(customerTab, orderTab);
+		orderPanel = new ManagingOrderPanel(customerTab, orderTab);
+		customerTab.setManagingCustomerPanel(customPanel);
+		orderTab.setManagingOrderPanel(orderPanel);
+		
+		loadDatas("custom.txt");
 		
 		JTabbedPane jTab = new JTabbedPane();
 		add(jTab);
@@ -29,6 +40,37 @@ public class ManagingProgram extends JFrame
 		jTab.addTab("°í°´°ü¸®", customPanel);
 
 		setVisible(true);
+	}
+	
+	private void loadDatas(String fileName)
+	{
+		try
+		{
+			File file = new File(fileName);
+			BufferedReader bufReader = new BufferedReader(new FileReader(file));
+			boolean CustomerOrOrder = false;
+			String line = "";
+			
+			while((line = bufReader.readLine()) != null)
+			{
+				if(line.contains("====="))
+				{
+					CustomerOrOrder = true;
+					continue;
+				}
+				
+				if(CustomerOrOrder == false)
+					customPanel.loadCustomerData(line);
+				else
+					orderPanel.loadOrderData(line);
+			}
+			
+			bufReader.close();
+		}
+		catch(Exception e)
+		{
+			
+		}
 	}
 	
 	public static void main(String[] args)
@@ -104,20 +146,6 @@ class WrongInputDataException extends Exception{
 	public WrongInputDataException() { }
 	
 	public WrongInputDataException(String message) {
-		super(message);
-	}
-}
-
-class ExistDataException extends Exception{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	public ExistDataException() { }
-	
-	public ExistDataException(String message) {
 		super(message);
 	}
 }
