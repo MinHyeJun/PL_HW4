@@ -62,7 +62,13 @@ public class CustomerTable implements Runnable
 				JOptionPane.showMessageDialog(null, "고객정보가 등록되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
 			}
 			else
-				throw new ExistDataException("이미 존재하는 고객번호입니다.");
+			{
+				customerList.get(getIndex(tmpCustomer)).setName(tmpCustomer.getName());
+				customerList.get(getIndex(tmpCustomer)).setDate(tmpCustomer.getDate());
+				customerList.get(getIndex(tmpCustomer)).setPhoneNum(tmpCustomer.getPhoneNum());
+				
+				JOptionPane.showMessageDialog(null, "고객정보가 수정되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 		catch(Exception e)
 		{
@@ -268,5 +274,20 @@ class Customer
 	public String getDate()
 	{
 		return addDate;
+	}
+	
+	public void setDate(String date)
+	{
+		this.addDate = date;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	public void setPhoneNum(String phoneNum)
+	{
+		this.phoneNum = phoneNum;
 	}
 }
