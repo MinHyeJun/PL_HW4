@@ -22,7 +22,7 @@ public class ManagingOrderPanel extends JPanel
 	
 	private JTextField textDate;
 	private JTextField textNum;
-	private JComboBox comboMenu;
+	private JComboBox<String> comboMenu;
 	private String[] menuList = {"±è¹ä", "¶±ººÀÌ", "¼ø´ë", "¾î¹¬", "Æ¢±è"};
 	
 	private JButton btnOrder;
@@ -46,7 +46,7 @@ public class ManagingOrderPanel extends JPanel
 		textDate.setBounds(200, 50, 200, 30);
 		textNum = new JTextField();
 		textNum.setBounds(200, 100, 200, 30);
-		comboMenu = new JComboBox(menuList);
+		comboMenu = new JComboBox<>(menuList);
 		comboMenu.setBounds(200, 150, 200, 30);
 		
 		btnOrder = new JButton("ÁÖ¹®");
