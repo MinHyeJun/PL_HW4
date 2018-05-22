@@ -50,16 +50,33 @@ public class CustomerTable implements Runnable
 	
 	private void addCustomer()
 	{
-		if(!contains(tmpCustomer))
-			customerList.add(tmpCustomer);
-		
-		JOptionPane.showMessageDialog(null, "고객정보가 등록되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
+		try
+		{
+			if(tmpCustomer.getCustomNum().equals("") || tmpCustomer.getDate().equals("")
+					|| tmpCustomer.getName().equals("") || tmpCustomer.getPhoneNum().equals(""))
+				throw new WrongInputDataException("모든 항목을 기재해주십시오.");
+			
+			if(!contains(tmpCustomer))
+			{
+				customerList.add(tmpCustomer);
+				JOptionPane.showMessageDialog(null, "고객정보가 등록되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else
+				throw new ExistDataException("이미 존재하는 고객번호입니다.");
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage(), "등록 실패", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
 	private void removeCustomer()
 	{
 		try
 		{
+			if(tmpCustomer.getCustomNum().equals(""))
+				throw new WrongInputDataException("고객 번호를 기재해주십시오.");
+			
 			if(contains(tmpCustomer))
 				customerList.remove(getIndex(tmpCustomer));
 			else
@@ -67,9 +84,9 @@ public class CustomerTable implements Runnable
 			
 			JOptionPane.showMessageDialog(null, "고객정보가 삭제되었습니다.", "삭제 성공", JOptionPane.INFORMATION_MESSAGE);
 		}
-		catch(NotExistDataException e)
+		catch(Exception e)
 		{
-			
+			JOptionPane.showMessageDialog(null, e.getMessage(), "삭제 실패", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -77,6 +94,9 @@ public class CustomerTable implements Runnable
 	{
 		try
 		{
+			if(tmpCustomer.getCustomNum().equals(""))
+				throw new WrongInputDataException("고객 번호를 기재해주십시오.");
+			
 			if(contains(tmpCustomer))
 			{
 				tmpCustomer = customerList.get(getIndex(tmpCustomer));
@@ -85,13 +105,15 @@ public class CustomerTable implements Runnable
 				panel.getTextFieldName().setText(tmpCustomer.getName());
 				panel.getTextFieldPhoneNum().setText(tmpCustomer.getPhoneNum());
 				panel.getTextFieldDate().setText(tmpCustomer.getDate());
+				
+				JOptionPane.showMessageDialog(null, "고객정보가 검색되었습니다.", "검색 성공", JOptionPane.INFORMATION_MESSAGE);
 			}
 			else
 				throw new NotExistDataException("검색할 고객 정보가 존재하지 않습니다.");
 		}
-		catch(NotExistDataException e)
+		catch(Exception e)
 		{
-			System.out.println("고객 데이터 없음");
+			JOptionPane.showMessageDialog(null, e.getMessage(), "검색 실패", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -118,8 +140,6 @@ public class CustomerTable implements Runnable
 		{
 			System.err.println(e);
 		}
-		
-		
 	}
 	
 	private void loadCustomer()

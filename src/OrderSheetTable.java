@@ -23,23 +23,36 @@ public class OrderSheetTable implements Runnable
 	
 	private void addOrderSheet()
 	{
-		orderList.add(tmpOrder);
+		try
+		{
+			if(tmpOrder.getDate().equals(""))
+				throw new WrongInputDataException("날짜를 기재해주십시오.");
+				
+			orderList.add(tmpOrder);
 		
-		JOptionPane.showMessageDialog(null, "주문이 완료되었습니다.", "주문 성공", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "주문이 완료되었습니다.", "주문 성공", JOptionPane.INFORMATION_MESSAGE);
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage(), "주문 실패", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 	
 	private void removeOrderSheet()
 	{
-		int index;
-		
-		for(index = 0; index < getSize(); index++)
-		{
-			if(orderList.get(index).equals(tmpOrder))
-				break;
-		}
-		
 		try
 		{
+			if(tmpOrder.getDate().equals(""))
+				throw new WrongInputDataException("날짜를 기재해주십시오.");
+			
+			int index;
+		
+			for(index = 0; index < getSize(); index++)
+			{
+				if(orderList.get(index).equals(tmpOrder))
+					break;
+			}
+		
 			if(index >= getSize())
 					throw new NotExistDataException("삭제할 주문 정보가 존재하지 않습니다.");
 			else
@@ -47,9 +60,9 @@ public class OrderSheetTable implements Runnable
 			
 			JOptionPane.showMessageDialog(null, "주문이 취소되었습니다.", "취소 성공", JOptionPane.INFORMATION_MESSAGE);
 		}
-		catch(NotExistDataException e)
+		catch(Exception e)
 		{
-			
+			JOptionPane.showMessageDialog(null, e.getMessage(), "취소 실패", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -95,7 +108,7 @@ public class OrderSheetTable implements Runnable
 				cnt++;
 		}
 		
-		if(cnt%3 == 0)
+		if((cnt > 0) && (cnt % 3 == 0))
 			return true;
 		else
 			return false;

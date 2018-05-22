@@ -100,6 +100,7 @@ public class ManagingCustomerPanel extends JPanel
 		}
 		catch(Exception e)
 		{
+			JOptionPane.showMessageDialog(null, e.getMessage(), "입력 확인", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	

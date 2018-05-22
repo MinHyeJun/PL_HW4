@@ -71,7 +71,7 @@ class StringOverFlowException extends Exception{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 1L;
 	
 	public StringOverFlowException() { }
 	
@@ -104,6 +104,20 @@ class WrongInputDataException extends Exception{
 	public WrongInputDataException() { }
 	
 	public WrongInputDataException(String message) {
+		super(message);
+	}
+}
+
+class ExistDataException extends Exception{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public ExistDataException() { }
+	
+	public ExistDataException(String message) {
 		super(message);
 	}
 }
