@@ -138,6 +138,7 @@ public class CustomerTable implements Runnable
 					output = customerList.get(i).getName() + "\t" + customerList.get(i).getPhoneNum() + "\t"
 							+ customerList.get(i).getCustomNum() + "\t" + customerList.get(i).getDate();
 					bufWriter.write(output);
+					bufWriter.newLine();
 				}
 				bufWriter.close();
 			}
