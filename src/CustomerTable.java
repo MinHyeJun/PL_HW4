@@ -46,7 +46,7 @@ public class CustomerTable implements Runnable
 		return -1;
 	}
 	
-	private boolean contains(Customer newCustomer)
+	public boolean contains(Customer newCustomer)
 	{
 		return (getIndex(newCustomer) >= 0);
 	}
@@ -155,7 +155,7 @@ public class CustomerTable implements Runnable
 		managingMode = mode;
 	}
 	
-	public void setCustomerInfo(String name, String phoneNum, String customNum, String addDate)
+	public void setCustomerInfo(String name, String phoneNum, String customNum, String date)
 	throws IllegalInputFormException, WrongCharactersException, StringOverFlowException
 	{
 		String form;
@@ -184,12 +184,12 @@ public class CustomerTable implements Runnable
 			
 		form = "[^0-9|/]";
 		pattern = Pattern.compile(form);
-		matcher = pattern.matcher(addDate);
+		matcher = pattern.matcher(date);
 			
 		if(matcher.find())
 			throw new IllegalInputFormException("잘못된 날짜 형식입니다.");
 			
-		tmpCustomer = new Customer(name, phoneNum, customNum, addDate);
+		tmpCustomer = new Customer(name, phoneNum, customNum, date);
 	}
 
 	@Override
@@ -220,14 +220,14 @@ class Customer
 	private String name;
 	private String phoneNum;
 	private String customNum;
-	private String addDate;
+	private String date;
 	
-	public Customer(String name, String phoneNum, String customNum, String addDate)
+	public Customer(String name, String phoneNum, String customNum, String date)
 	{
 		this.name = name;
 		this.phoneNum = phoneNum;
 		this.customNum = customNum;
-		this.addDate = addDate;
+		this.date = date;
 	}
 	
 	public String getName()
@@ -247,12 +247,12 @@ class Customer
 	
 	public String getDate()
 	{
-		return addDate;
+		return date;
 	}
 	
 	public void setDate(String date)
 	{
-		this.addDate = date;
+		this.date = date;
 	}
 	
 	public void setName(String name)

@@ -10,10 +10,11 @@ import javax.swing.JOptionPane;
 public class OrderSheetTable implements Runnable
 {
 	private ArrayList<OrderSheet> orderList;
-	private ManagingOrderPanel panel;
 	
 	private OrderSheet tmpOrder;
 	private int managingMode;
+	
+	private ManagingOrderPanel panel;
 	
 	public OrderSheetTable()
 	{
