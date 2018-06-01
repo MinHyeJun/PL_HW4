@@ -15,6 +15,7 @@ public class ManagingOrderPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 	private CustomerTable customerTab;
 	private OrderSheetTable orderTab;
+	private SalesTable salesTab;
 	
 	private JLabel labelDate;
 	private JLabel labelNum;
@@ -28,10 +29,11 @@ public class ManagingOrderPanel extends JPanel
 	private JButton btnOrder;
 	private JButton btnCancel;
 	
-	public ManagingOrderPanel(CustomerTable customerTab, OrderSheetTable orderTab)
+	public ManagingOrderPanel(CustomerTable customerTab, OrderSheetTable orderTab, SalesTable salesTab)
 	{
 		this.customerTab = customerTab;
 		this.orderTab = orderTab;
+		this.salesTab = salesTab;
 		setLayout(null);
 		
 		//라벨 생성
@@ -88,6 +90,7 @@ public class ManagingOrderPanel extends JPanel
 			Thread thread = new Thread(orderTab);
 			thread.start();
 			
+			salesTab.countCouponNum();
 			saveDatas();
 		}
 		catch(Exception e)

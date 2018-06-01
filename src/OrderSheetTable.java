@@ -26,9 +26,14 @@ public class OrderSheetTable implements Runnable
 		this.panel = panel;
 	}
 	
-	private int getSize()
+	public int getSize()
 	{
 		return orderList.size();
+	}
+	
+	public OrderSheet getOrder(int index)
+	{
+		return orderList.get(index);
 	}
 	
 	private void addOrderSheet()

@@ -12,6 +12,7 @@ public class ManagingCustomerPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 	private CustomerTable customerTab;
 	private OrderSheetTable orderTab;
+	private SalesTable salesTab;
 	
 	private JLabel labelNum;
 	private JLabel labelName;
@@ -27,10 +28,11 @@ public class ManagingCustomerPanel extends JPanel
 	private JButton btnSearch;
 	private JButton btnRemove;
 	
-	public ManagingCustomerPanel(CustomerTable customerTab, OrderSheetTable orderTab)
+	public ManagingCustomerPanel(CustomerTable customerTab, OrderSheetTable orderTab, SalesTable salesTab)
 	{
 		this.customerTab = customerTab;
 		this.orderTab = orderTab;
+		this.salesTab = salesTab;
 		setLayout(null);
 		// 라벨 생성
 		labelNum = new JLabel("고객번호");

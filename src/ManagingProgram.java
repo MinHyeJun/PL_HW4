@@ -6,16 +6,23 @@ import javax.swing.*;
 
 public class ManagingProgram extends JFrame
 {
-	final static int x1 = 500;
-	final static int y1 = 200;
-	final static int x2 = 700;
-	final static int y2 = 500;
+	public final static int GIMBAP = 0;
+	public final static int TTEOKBOKKI = 1;
+	public final static int SUNDAE = 2;
+	public final static int FISH_CAKE = 3;
+	public final static int FRIED = 4;
+	
+	private final static int x1 = 500;
+	private final static int y1 = 200;
+	private final static int x2 = 700;
+	private final static int y2 = 500;
 	
 	private static final long serialVersionUID = -711163588504124217L;
 
 	
 	public ManagingOrderPanel orderPanel = null;
 	public ManagingCustomerPanel customPanel = null;
+	public CheckingSalesPanel checkingPanel = null;
 	
 	public ManagingProgram() {
 		
@@ -26,11 +33,15 @@ public class ManagingProgram extends JFrame
 		
 		CustomerTable customerTab = new CustomerTable();
 		OrderSheetTable orderTab = new OrderSheetTable();
+		SalesTable salesTab = new SalesTable(customerTab, orderTab);
 		
-		customPanel = new ManagingCustomerPanel(customerTab, orderTab);
-		orderPanel = new ManagingOrderPanel(customerTab, orderTab);
+		customPanel = new ManagingCustomerPanel(customerTab, orderTab, salesTab);
+		orderPanel = new ManagingOrderPanel(customerTab, orderTab, salesTab);
+		checkingPanel = new CheckingSalesPanel(salesTab);
+		
 		customerTab.setManagingCustomerPanel(customPanel);
 		orderTab.setManagingOrderPanel(orderPanel);
+		salesTab.setPanel(checkingPanel);
 		
 		loadDatas("custom.txt");
 		
@@ -38,6 +49,7 @@ public class ManagingProgram extends JFrame
 		add(jTab);
 		jTab.addTab("林巩包府", orderPanel);
 		jTab.addTab("绊按包府", customPanel);
+		jTab.addTab("概免炼雀", checkingPanel);
 
 		setVisible(true);
 	}

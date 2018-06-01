@@ -25,7 +25,7 @@ public class CustomerTable implements Runnable
 		this.panel = panel;
 	}
 	
-	private int getSize()
+	public int getSize()
 	{
 		return customerList.size();
 	}
@@ -49,6 +49,11 @@ public class CustomerTable implements Runnable
 	public boolean contains(Customer newCustomer)
 	{
 		return (getIndex(newCustomer) >= 0);
+	}
+	
+	public Customer getCustomer(int index)
+	{
+		return customerList.get(index);
 	}
 	
 	private void addCustomer()
