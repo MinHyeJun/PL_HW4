@@ -30,7 +30,7 @@ public class CustomerTable implements Runnable
 		return customerList.size();
 	}
 	
-	private int getIndex(Customer newCustomer)
+	private int getIndex(String customerNum)
 	{
 		Customer current;
 		
@@ -38,7 +38,7 @@ public class CustomerTable implements Runnable
 		{
 			current = customerList.get(i);
 			
-			if(current.getCustomNum().equals(newCustomer.getCustomNum()))
+			if(current.getCustomNum().equals(customerNum))
 			{
 				return i;
 			}
@@ -46,9 +46,9 @@ public class CustomerTable implements Runnable
 		return -1;
 	}
 	
-	public boolean contains(Customer newCustomer)
+	public boolean contains(String customerNum)
 	{
-		return (getIndex(newCustomer) >= 0);
+		return (getIndex(customerNum) >= 0);
 	}
 	
 	public Customer getCustomer(int index)
@@ -64,16 +64,16 @@ public class CustomerTable implements Runnable
 					|| tmpCustomer.getName().equals("") || tmpCustomer.getPhoneNum().equals(""))
 				throw new WrongInputDataException("모든 항목을 기재해주십시오.");
 			
-			if(!contains(tmpCustomer))
+			if(!contains(tmpCustomer.getCustomNum()))
 			{
 				customerList.add(tmpCustomer);
 				JOptionPane.showMessageDialog(null, "고객정보가 등록되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
 			}
 			else
 			{
-				customerList.get(getIndex(tmpCustomer)).setName(tmpCustomer.getName());
-				customerList.get(getIndex(tmpCustomer)).setDate(tmpCustomer.getDate());
-				customerList.get(getIndex(tmpCustomer)).setPhoneNum(tmpCustomer.getPhoneNum());
+				customerList.get(getIndex(tmpCustomer.getCustomNum())).setName(tmpCustomer.getName());
+				customerList.get(getIndex(tmpCustomer.getCustomNum())).setDate(tmpCustomer.getDate());
+				customerList.get(getIndex(tmpCustomer.getCustomNum())).setPhoneNum(tmpCustomer.getPhoneNum());
 				
 				JOptionPane.showMessageDialog(null, "고객정보가 수정되었습니다.", "등록 성공", JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -91,8 +91,8 @@ public class CustomerTable implements Runnable
 			if(tmpCustomer.getCustomNum().equals(""))
 				throw new WrongInputDataException("고객 번호를 기재해주십시오.");
 			
-			if(contains(tmpCustomer))
-				customerList.remove(getIndex(tmpCustomer));
+			if(contains(tmpCustomer.getCustomNum()))
+				customerList.remove(getIndex(tmpCustomer.getCustomNum()));
 			else
 				throw new NotExistDataException("삭제할 고객 정보가 존재하지 않습니다.");
 			
@@ -111,9 +111,9 @@ public class CustomerTable implements Runnable
 			if(tmpCustomer.getCustomNum().equals(""))
 				throw new WrongInputDataException("고객 번호를 기재해주십시오.");
 			
-			if(contains(tmpCustomer))
+			if(contains(tmpCustomer.getCustomNum()))
 			{
-				tmpCustomer = customerList.get(getIndex(tmpCustomer));
+				tmpCustomer = customerList.get(getIndex(tmpCustomer.getCustomNum()));
 		
 				panel.getTextFieldNum().setText(tmpCustomer.getCustomNum());
 				panel.getTextFieldName().setText(tmpCustomer.getName());

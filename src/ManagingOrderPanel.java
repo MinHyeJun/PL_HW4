@@ -84,13 +84,15 @@ public class ManagingOrderPanel extends JPanel
 	{
 		try
 		{
+			if(!customerTab.contains(textNum.getText()))
+				throw new Exception("등록되지 않은 고객번호입니다.");
+			
 			orderTab.setManagingMode(mode);
 			orderTab.setOrderInfo(textDate.getText(), textNum.getText(), comboMenu.getSelectedIndex());
 		
 			Thread thread = new Thread(orderTab);
 			thread.start();
-			
-			salesTab.countCouponNum();
+
 			saveDatas();
 		}
 		catch(Exception e)
