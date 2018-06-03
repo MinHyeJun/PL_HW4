@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +16,8 @@ public class OrderSheetTable implements Runnable
 	private int managingMode;
 	
 	private ManagingOrderPanel panel;
+	
+	SimpleDateFormat format;
 	
 	public OrderSheetTable()
 	{
@@ -112,11 +115,10 @@ public class OrderSheetTable implements Runnable
 		Pattern pattern;
 		Matcher matcher;
 		
-		form = "[^0-9|/]";
-		pattern = Pattern.compile(form);
-		matcher = pattern.matcher(date);
+		form = "^\\d{4}/\\d{2}/\\d{2}$";
+		boolean isOK = Pattern.matches(form,date);
 			
-		if(matcher.find())
+		if(!isOK)
 			throw new IllegalInputFormException("Àß¸øµÈ ³¯Â¥ Çü½ÄÀÔ´Ï´Ù.");
 		
 		form = "[^¤¡-¤¾°¡-ÆRa-zA-Z0-9]";

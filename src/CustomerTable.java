@@ -187,11 +187,10 @@ public class CustomerTable implements Runnable
 		if(matcher.find())
 			throw new IllegalInputFormException("잘못된 전화번호 형식입니다.");
 			
-		form = "[^0-9|/]";
-		pattern = Pattern.compile(form);
-		matcher = pattern.matcher(date);
+		form = "^\\d{4}/\\d{2}/\\d{2}$";
+		boolean isOK = Pattern.matches(form,date);
 			
-		if(matcher.find())
+		if(!isOK)
 			throw new IllegalInputFormException("잘못된 날짜 형식입니다.");
 			
 		tmpCustomer = new Customer(name, phoneNum, customNum, date);

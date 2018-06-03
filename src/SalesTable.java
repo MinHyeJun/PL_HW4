@@ -1,7 +1,8 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+
+import javax.swing.JOptionPane;
 
 public class SalesTable
 {
@@ -40,13 +41,15 @@ public class SalesTable
 	public void countCouponNum()
 	{
 		int totalNum = 0;
-		int num = 0;
+		int preNum = 0;
+		int orderNum = 0;
 		Date orderDate;
 		try
 		{
 			for (int i = 0; i < customerTab.getSize(); i++)
 			{
-				num = 0;
+				orderNum = 0;
+				totalNum = 0;
 				for (int j = 0; j < orderTab.getSize(); j++)
 				{
 					orderDate = format.parse(orderTab.getOrder(j).getDate());
@@ -54,14 +57,19 @@ public class SalesTable
 					int compareEndDate = endDate.compareTo(orderDate);
 
 					if (customerTab.getCustomer(i).getCustomNum().equals(orderTab.getOrder(j).getCustomNum())
-							&& (compareStartDate == 0 | compareStartDate < 0)
 							&& (compareEndDate == 0 | compareEndDate > 0))
 					{
-						num++;
+						orderNum++;
+					}
+
+					if (customerTab.getCustomer(i).getCustomNum().equals(orderTab.getOrder(j).getCustomNum())
+							&& compareStartDate > 0)
+					{
+						preNum++;
 					}
 				}
 
-				totalNum += num / 3;
+				totalNum += (orderNum / 3) - (preNum / 3);
 			}
 		}
 		catch (ParseException e)
@@ -71,18 +79,19 @@ public class SalesTable
 		couponNum = totalNum;
 	}
 
-	public void setDates()
+	public void setDates() throws ParseException, Exception
 	{
-		try
-		{
-			startDate = format.parse(panel.getTextDateStart().getText());
-			endDate = format.parse(panel.getTextDateEnd().getText());
-		}
-		catch (ParseException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String strStartDate = panel.getTextDateStart().getText();
+		String strEndDate = panel.getTextDateEnd().getText();
+		
+		if(strStartDate.equals("") | strEndDate.equals(""))
+			throw new WrongInputDataException("날짜를 모두 기재해주십시오.");
+		
+		startDate = format.parse(strStartDate);
+		endDate = format.parse(strEndDate);
+
+		if (startDate.compareTo(endDate) > 0)
+			throw new Exception("입력된 날짜로 조회할 수 없습니다.");
 	}
 
 	public void setSalesInfo()
@@ -99,9 +108,8 @@ public class SalesTable
 					orderDate = format.parse(orderTab.getOrder(j).getDate());
 					int compareStartDate = startDate.compareTo(orderDate);
 					int compareEndDate = endDate.compareTo(orderDate);
-					
-					if (orderTab.getOrder(j).getMenu() == i
-							&& (compareStartDate == 0 | compareStartDate < 0)
+
+					if (orderTab.getOrder(j).getMenu() == i && (compareStartDate == 0 | compareStartDate < 0)
 							&& (compareEndDate == 0 | compareEndDate > 0))
 					{
 						num++;
@@ -120,7 +128,8 @@ public class SalesTable
 
 	public void checkSales()
 	{
-
+		try
+		{
 		setDates();
 		setSalesInfo();
 		countCouponNum();
@@ -144,5 +153,14 @@ public class SalesTable
 		output += "매출합계                                                    ";
 
 		panel.getTextInfoView().append(output);
+		}
+		catch(ParseException e)
+		{
+			JOptionPane.showMessageDialog(null, "잘못된 형식의 날짜가 입력되었습니다.", "입력 확인", JOptionPane.WARNING_MESSAGE);
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage(), "입력 확인", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }
