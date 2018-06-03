@@ -93,6 +93,15 @@ public class SalesTable
 		if (startDate.compareTo(endDate) > 0)
 			throw new Exception("입력된 날짜로 조회할 수 없습니다.");
 	}
+	
+	public int sumTotalMoney()
+	{
+		int totalMoney = 0;
+		for(int i = 0; i < salesTotalMoney.length; i++)
+			totalMoney += salesTotalMoney[i];
+		
+		return totalMoney;
+	}
 
 	public void setSalesInfo()
 	{
@@ -150,7 +159,7 @@ public class SalesTable
 				+ salesTotalMoney[4] + "\n";
 		output += "쿠폰                                     " + couponNum + "\n";
 		output += "===========================================\n";
-		output += "매출합계                                                    ";
+		output += "매출합계                                                    " + sumTotalMoney();
 
 		panel.getTextInfoView().append(output);
 		}
