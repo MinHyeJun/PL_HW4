@@ -159,7 +159,7 @@ public class SalesTable
 				+ salesTotalMoney[4] + "\n";
 		output += "쿠폰                                     " + couponNum + "\n";
 		output += "===========================================\n";
-		output += "매출합계                                                    " + sumTotalMoney();
+		output += "매출합계                                                      " + sumTotalMoney();
 
 		panel.getTextInfoView().append(output);
 		}
